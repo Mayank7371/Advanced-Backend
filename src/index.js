@@ -4,7 +4,11 @@ import connectDB from "./db/index.js";
 dotenv.config({
   path: "./env",
 });
-connectDB();
+connectDB()
+.then()
+.catch((err)=>{
+ console.log("Error in connection to database", err)});
+
 /*
 (async () => {
   try {
