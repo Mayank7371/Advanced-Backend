@@ -1,20 +1,31 @@
-// server.js
-const express = require("express");
-require("dotenv").config();
+import express from "express";
+import dotenv from "dotenv";
+import connectDb from "./db/db.mjs";
+import userRoutes from "./routes/users.mjs";
+
+dotenv.config();
+
 const app = express();
-const PORT = process.env.PORT;
-const userRoutes = require("./routes/users");
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
 app.use("/users", userRoutes);
 
-// Middleware - to parse JSON body
-app.use(express.json());
-
-// Sample route
 app.get("/", (req, res) => {
-  res.send("<h1>server is online</h1>");
+  res.send("<h1>Server is online 🚀</h1>");
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDb();
+    app.listen(PORT, () => {
+      console.log(`✅ Server running at http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Database connection failed. Server not started.");
+    console.error(error.message);
+    process.exit(1);
+  }
+};
+
+startServer();

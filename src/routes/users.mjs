@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
 let users = [
@@ -45,4 +45,4 @@ router.delete("/:id", (req, res) => {
   res.json({ msg: "User deleted" });
 });
 
-module.exports = router;
+export default router;
